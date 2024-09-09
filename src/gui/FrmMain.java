@@ -191,6 +191,24 @@ public class FrmMain extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == uno){
 			barraTxt.setText(barraTxt.getText() + "1");
+		} else if (e.getSource() == dos) {
+			barraTxt.setText(barraTxt.getText() + "2");
+		} else if (e.getSource() == tres) {
+			barraTxt.setText(barraTxt.getText() + "3");
+		} else if (e.getSource() == cuatro) {
+			barraTxt.setText(barraTxt.getText() + "4");
+		} else if (e.getSource() == cinco) {
+			barraTxt.setText(barraTxt.getText() + "5");
+		} else if (e.getSource() == seis) {
+			barraTxt.setText(barraTxt.getText() + "6");
+		} else if (e.getSource() == siete) {
+			barraTxt.setText(barraTxt.getText() + "7");
+		} else if (e.getSource() == ocho) {
+			barraTxt.setText(barraTxt.getText() + "8");
+		} else if (e.getSource() == nueve) {
+			barraTxt.setText(barraTxt.getText() + "9");
+		} else if (e.getSource() == cero) {
+			barraTxt.setText(barraTxt.getText() + "0");
 		}
 		
 	}
