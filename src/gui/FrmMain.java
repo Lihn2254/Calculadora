@@ -8,6 +8,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -15,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class FrmMain extends JFrame implements ActionListener{
+public class FrmMain extends JFrame implements ActionListener, KeyListener{
 	private static final long serialVersionUID = 1L;
 	private JPanel pnlCentro, pnlNorte;
 	private JTextField barraTxt;
@@ -209,7 +211,24 @@ public class FrmMain extends JFrame implements ActionListener{
 			barraTxt.setText(barraTxt.getText() + "9");
 		} else if (e.getSource() == cero) {
 			barraTxt.setText(barraTxt.getText() + "0");
+		} else if (e.getSource() == borrarC) {
+			barraTxt.setText(null);
 		}
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		
 	}
 }
