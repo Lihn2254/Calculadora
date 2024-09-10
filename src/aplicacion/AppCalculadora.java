@@ -15,6 +15,7 @@ public class AppCalculadora {
 		}*/
 		System.out.println("Hello 2");
 		System.out.println("Helloo");
+		System.out.println("Pene");
 		FrmMain MainFrame = new FrmMain();
 		MainFrame.setVisible(true);
 	}
