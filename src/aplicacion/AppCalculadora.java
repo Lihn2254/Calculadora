@@ -13,6 +13,7 @@ public class AppCalculadora {
 		for (String string : fontFamilies) {
 			System.out.println(string);
 		}*/
+		System.out.println("Hello 2");
 		System.out.println("Helloo");
 		FrmMain MainFrame = new FrmMain();
 		MainFrame.setVisible(true);
