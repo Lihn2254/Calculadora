@@ -8,25 +8,24 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import funcion.Funciones;
 
-public class FrmMain extends JFrame implements ActionListener, KeyListener{
+public class FrmMain extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private JPanel pnlCentro, pnlNorte;
-	public static JTextField barraTxt;
-	private JButton borrarC, borrarCE, mod, multi, div, resta, suma, dot, signo, igual, 
+	public static NumField barraTxt;
+	private JButton borrarC, borrarCE, signo, igual, mod, multi, div, resta, suma, dot, 
 		uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, cero;
 	private Dimension buttonSize = new Dimension(70, 50);
-	private char operador = 'n';
-	private Double n1, n2, res;
+	public static char operador = 'n';
+	public static Double n1;
+    public static Double n2;
+	public static Double res = null;
 	
 	public FrmMain () {
 		setTitle("Calculadora");
@@ -45,7 +44,7 @@ public class FrmMain extends JFrame implements ActionListener, KeyListener{
 		add(pnlCentro, BorderLayout.CENTER);
 
 		pnlNorte = new JPanel();
-		barraTxt = new JTextField();
+		barraTxt = new NumField();
 		barraTxt.setMinimumSize(new Dimension(300, 60));
 		barraTxt.setPreferredSize(new Dimension(300, 60));
 		barraTxt.setMaximumSize(new Dimension(300, 60));
@@ -198,13 +197,12 @@ public class FrmMain extends JFrame implements ActionListener, KeyListener{
 		if (e.getSource() == uno || e.getSource() == dos || e.getSource() == tres || e.getSource() == cuatro || e.getSource() == cinco || e.getSource() == seis
 			|| e.getSource() == siete || e.getSource() == ocho || e.getSource() == nueve || e.getSource() == cero) {
 			JButton button = (JButton) e.getSource();
-			if (res != null && operador == 'n' && res == Double.parseDouble(barraTxt.getText())) {
+			if (res != null && operador == 'n' && !barraTxt.getText().equals(null) && res == Double.parseDouble(barraTxt.getText())) {
 				barraTxt.setText(button.getText());
 				n1 = null;
 				res = null;
-			} else if (res != null && res == Double.parseDouble(barraTxt.getText())
-					|| n1 != null && n1 == Double.parseDouble(barraTxt.getText())) {
-				barraTxt.setText(button.getText());
+			} else if ((res != null && res == Double.parseDouble(barraTxt.getText()) || n1 != null && n1 == Double.parseDouble(barraTxt.getText()))) {
+					barraTxt.setText(button.getText());
 			} else
 				barraTxt.setText(barraTxt.getText() + button.getText());
 		}
@@ -222,8 +220,15 @@ public class FrmMain extends JFrame implements ActionListener, KeyListener{
 			barraTxt.setText(null);
 			res = null;
 			n1 = null;
-		} else if (e.getSource() == borrarCE){
+		} else if (e.getSource() == borrarCE && !barraTxt.getText().equals(null)){
+			if (res == Double.parseDouble(barraTxt.getText())){
+				res = null;
+				n1 = null;
+			}
 			barraTxt.setText(null);
+		} else if (e.getSource() == signo && !barraTxt.getText().equals(null)){
+			Double num = (Double.parseDouble(barraTxt.getText())*-1.0);
+			barraTxt.setText(num.toString());
 		}
 		
 		if (e.getSource() == suma || e.getSource() == resta || e.getSource() == multi || e.getSource() == div || e.getSource() == mod || e.getSource() == igual){
@@ -256,126 +261,5 @@ public class FrmMain extends JFrame implements ActionListener, KeyListener{
 				operador = button.getText().toLowerCase().charAt(0);
 			}
 		}
-		/*/-------------
-		if (n1 != null && operador != 'n'){ //Operadores
-			if (e.getSource() == suma) {
-				n2 = Double.parseDouble(barraTxt.getText());
-				res = Funciones.operar(operador, n1, n2);
-				barraTxt.setText(res.toString());
-				operador = '+';
-				n1 = res;
-			} else if (e.getSource() == resta) {
-				n2 = Double.parseDouble(barraTxt.getText());
-				res = Funciones.operar(operador, n1, n2);
-				barraTxt.setText(res.toString());
-				operador = '-';
-				n1 = res;
-			} else if (e.getSource() == multi) {
-				n2 = Double.parseDouble(barraTxt.getText());
-				res = Funciones.operar(operador, n1, n2);
-				barraTxt.setText(res.toString());
-				operador = '*';
-				n1 = res;
-			} else if (e.getSource() == div) {
-				n2 = Double.parseDouble(barraTxt.getText());
-				res = Funciones.operar(operador, n1, n2);
-				barraTxt.setText(res.toString());
-				operador = '/';
-				n1 = res;
-			} else if (e.getSource() == mod) {
-				n2 = Double.parseDouble(barraTxt.getText());
-				res = Funciones.operar(operador, n1, n2);
-				barraTxt.setText(res.toString());
-				operador = 'm';
-				n1 = res;
-			} else if (e.getSource() == igual){
-				n2 = Double.parseDouble(barraTxt.getText());
-				res = Funciones.operar(operador, n1, n2);
-				barraTxt.setText(res.toString());
-				operador = 'n';
-				n1 = res;
-			}
-		} else if (res != null && res == Double.parseDouble(barraTxt.getText())) {
-			if (e.getSource() == suma) {
-				operador = '+';
-			} else if (e.getSource() == resta) {
-				operador = '-';
-			} else if (e.getSource() == multi) {
-				operador = '*';
-			} else if (e.getSource() == div) {
-				operador = '/';
-			} else if (e.getSource() == mod) {
-				operador = 'm';
-			}
-			n1 = res;
-		} else if (n1 != null && operador == 'n'){
-			if (e.getSource() == suma) {
-				n2 = Double.parseDouble(barraTxt.getText());
-				operador = '+';
-				res = Funciones.operar(operador, n1, n2);
-				barraTxt.setText(res.toString());
-				operador = 'n';
-				n1 = res;
-			} else if (e.getSource() == resta) {
-				n2 = Double.parseDouble(barraTxt.getText());
-				operador = '-';
-				res = Funciones.operar(operador, n1, n2);
-				barraTxt.setText(res.toString());
-				n1 = res;
-			} else if (e.getSource() == multi) {
-				n2 = Double.parseDouble(barraTxt.getText());
-				operador = '*';
-				res = Funciones.operar(operador, n1, n2);
-				barraTxt.setText(res.toString());
-				n1 = res;
-			} else if (e.getSource() == div) {
-				n2 = Double.parseDouble(barraTxt.getText());
-				operador = '/';
-				res = Funciones.operar(operador, n1, n2);
-				barraTxt.setText(res.toString());
-				n1 = res;
-			} else if (e.getSource() == mod) {
-				n2 = Double.parseDouble(barraTxt.getText());
-				operador = 'm';
-				res = Funciones.operar(operador, n1, n2);
-				barraTxt.setText(res.toString());
-				n1 = res;
-			}
-		} else {
-			if (e.getSource() == suma) {
-				n1 = Double.parseDouble(barraTxt.getText());
-				operador = '+';
-			} else if (e.getSource() == resta) {
-				n1 = Double.parseDouble(barraTxt.getText());
-				operador = '-';
-			} else if (e.getSource() == multi) {
-				n1 = Double.parseDouble(barraTxt.getText());
-				operador = '*';
-			} else if (e.getSource() == div) {
-				n1 = Double.parseDouble(barraTxt.getText());
-				operador = '/';
-			} else if (e.getSource() == mod) {
-				n1 = Double.parseDouble(barraTxt.getText());
-				operador = 'm';
-			}
-		}*/
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if (e.getSource() == barraTxt && e.getKeyCode() == KeyEvent.VK_PLUS){
-			//mathInput = barraTxt.getText() + "+";
-			barraTxt.setText("null");
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		
 	}
 }

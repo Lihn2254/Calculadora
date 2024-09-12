@@ -1,21 +1,21 @@
 package funcion;
 
 public class Funciones {
-    public static Double res;
+
     public static Double operar(char operador, Double n1, Double n2){
-        Double result = null;
+        Double res = null;
         if (operador == '+'){
-            result = n1 + n2;
+            res = n1 + n2;
         } else if (operador == '-'){
-            result = n1 - n2;
+            res = n1 - n2;
         } else if (operador == '*'){
-            result = n1*n2;
+            res = n1*n2;
         } else if (operador == '/'){
-            result = n1/n2;
+            res = n1/n2;
         } else if (operador == 'm'){
-            result = n1%n2;
+            res = n1%n2;
         }
-        return result;
+        return res;
     }
 
     /*public static void sumar(){
