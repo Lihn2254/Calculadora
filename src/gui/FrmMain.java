@@ -18,8 +18,8 @@ import funcion.Funciones;
 public class FrmMain extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private JPanel pnlCentro, pnlNorte;
-	public static NumField barraTxt;
-	private JButton borrarC, borrarCE, signo, igual, mod, multi, div, resta, suma, dot, 
+	public static MathField barraTxt;
+	public static JButton borrarC, borrarCE, signo, igual, mod, multi, div, resta, suma, dot, 
 		uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, cero;
 	private Dimension buttonSize = new Dimension(70, 50);
 	public static char operador = 'n';
@@ -44,7 +44,7 @@ public class FrmMain extends JFrame implements ActionListener{
 		add(pnlCentro, BorderLayout.CENTER);
 
 		pnlNorte = new JPanel();
-		barraTxt = new NumField();
+		barraTxt = new MathField();
 		barraTxt.setMinimumSize(new Dimension(300, 60));
 		barraTxt.setPreferredSize(new Dimension(300, 60));
 		barraTxt.setMaximumSize(new Dimension(300, 60));
@@ -62,10 +62,7 @@ public class FrmMain extends JFrame implements ActionListener{
 		c.weightx = 1;
 		c.weighty = 1;
 		c.fill = GridBagConstraints.BOTH;
-		//c.anchor = GridBagConstraints.CENTER;
 		c.insets = new Insets(1, 1, 1, 1);
-		//c.ipadx = 0;
-		//c.ipady = 7;
 		
 		borrarC = new JButton("C");
 		borrarC.setPreferredSize(buttonSize);
@@ -190,76 +187,9 @@ public class FrmMain extends JFrame implements ActionListener{
 		igual.addActionListener(this);
 		pnlCentro.add(igual, c);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//Numeros		
-		if (e.getSource() == uno || e.getSource() == dos || e.getSource() == tres || e.getSource() == cuatro || e.getSource() == cinco || e.getSource() == seis
-			|| e.getSource() == siete || e.getSource() == ocho || e.getSource() == nueve || e.getSource() == cero) {
-			JButton button = (JButton) e.getSource();
-			if (res != null && operador == 'n' && !barraTxt.getText().equals(null) && res == Double.parseDouble(barraTxt.getText())) {
-				barraTxt.setText(button.getText());
-				n1 = null;
-				res = null;
-			} else if ((res != null && res == Double.parseDouble(barraTxt.getText()) || n1 != null && n1 == Double.parseDouble(barraTxt.getText()))) {
-					barraTxt.setText(button.getText());
-			} else
-				barraTxt.setText(barraTxt.getText() + button.getText());
-		}
-		
-		if (e.getSource() == dot) { //Otros botones
-			if (res != null && operador == 'n' && res == Double.parseDouble(barraTxt.getText())){
-				barraTxt.setText("0.");
-				n1 = null;
-				res = null;
-			} else if (res != null && res == Double.parseDouble(barraTxt.getText()) || n1 != null && n1 == Double.parseDouble(barraTxt.getText())) {
-				barraTxt.setText("0.");
-			} else if (!barraTxt.getText().contains(Character.toString('.')))
-				barraTxt.setText(barraTxt.getText() + "."); 
-		} else if (e.getSource() == borrarC) {
-			barraTxt.setText(null);
-			res = null;
-			n1 = null;
-		} else if (e.getSource() == borrarCE && !barraTxt.getText().equals(null)){
-			if (res == Double.parseDouble(barraTxt.getText())){
-				res = null;
-				n1 = null;
-			}
-			barraTxt.setText(null);
-		} else if (e.getSource() == signo && !barraTxt.getText().equals(null)){
-			Double num = (Double.parseDouble(barraTxt.getText())*-1.0);
-			barraTxt.setText(num.toString());
-		}
-		
-		if (e.getSource() == suma || e.getSource() == resta || e.getSource() == multi || e.getSource() == div || e.getSource() == mod || e.getSource() == igual){
-			JButton button = (JButton) e.getSource();
-			if (n1 != null && operador != 'n'){
-				if (e.getSource() == igual){
-					n2 = Double.parseDouble(barraTxt.getText());
-					res = Funciones.operar(operador, n1, n2);
-					barraTxt.setText(res.toString());
-					operador = 'n';
-					n1 = res;
-				} else {
-					n2 = Double.parseDouble(barraTxt.getText());
-					res = Funciones.operar(operador, n1, n2);
-					barraTxt.setText(res.toString());
-					operador = button.getText().toLowerCase().charAt(0);
-					n1 = res;	
-				}
-			} else if (res != null && res == Double.parseDouble(barraTxt.getText())) {
-				operador = button.getText().toLowerCase().charAt(0);
-			} else if (n1 != null && operador == 'n'){
-					n2 = Double.parseDouble(barraTxt.getText());
-					operador = button.getText().toLowerCase().charAt(0);
-					res = Funciones.operar(operador, n1, n2);
-					barraTxt.setText(res.toString());
-					operador = 'n';
-					n1 = res;
-			} else {
-				n1 = Double.parseDouble(barraTxt.getText());
-				operador = button.getText().toLowerCase().charAt(0);
-			}
-		}
+		Funciones.accionarBoton(e);
 	}
 }
