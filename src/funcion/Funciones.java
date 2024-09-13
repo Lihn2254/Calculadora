@@ -10,7 +10,7 @@ public class Funciones {
     private static char operador;
 
     public static Double operar(char operador, Double n1, Double n2){
-        Double res = null;
+        res = null;
         if (operador == '+'){
             res = n1 + n2;
         } else if (operador == '-'){
@@ -33,10 +33,11 @@ public class Funciones {
 				FrmMain.barraTxt.setText(button.getText());
 				n1 = null;
 				res = null;
-			} else if ((res != null && res == Double.parseDouble(FrmMain.barraTxt.getText()) || n1 != null && n1 == Double.parseDouble(FrmMain.barraTxt.getText()))) {
+			} else if (res != null && res == Double.parseDouble(FrmMain.barraTxt.getText()) || n1 != null && n1 == Double.parseDouble(FrmMain.barraTxt.getText())) {
                 FrmMain.barraTxt.setText(button.getText());
-			} else
+			} else {
                 FrmMain.barraTxt.setText(FrmMain.barraTxt.getText() + button.getText());
+            }
 		}
 		
 		//Otros botones
@@ -54,14 +55,19 @@ public class Funciones {
 			res = null;
 			n1 = null;
 		} else if (e.getSource() == FrmMain.borrarCE && !FrmMain.barraTxt.getText().equals(null)){
-			if (res == Double.parseDouble(FrmMain.barraTxt.getText())){
+			if (res != null && res == Double.parseDouble(FrmMain.barraTxt.getText())){
 				res = null;
 				n1 = null;
 			}
 			FrmMain.barraTxt.setText(null);
-		} else if (e.getSource() == FrmMain.signo && !FrmMain.barraTxt.getText().equals(null)){
-			Double num = (Double.parseDouble(FrmMain.barraTxt.getText())*-1.0);
-			FrmMain.barraTxt.setText(num.toString());
+		} else if (e.getSource() == FrmMain.signo){
+            if (!FrmMain.barraTxt.getText().equals(null)){
+                Double num = (Double.parseDouble(FrmMain.barraTxt.getText())*-1.0);
+                if (res != null && res == Double.parseDouble(FrmMain.barraTxt.getText())) {
+                    res = num;
+                }
+                FrmMain.barraTxt.setText(num.toString());
+            }
 		}
 		
 		//Operadores
@@ -100,19 +106,20 @@ public class Funciones {
     public static void accionarTecla(KeyEvent e) {
         char c = e.getKeyChar();
 
+        //Numeros
         if (!Character.isDigit(c) && c != '.' && c != '+' && c != '-' && c != '*' && c != '/' && c != '%'
                 && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_ENTER) {
             e.consume();
         } else {
             if (Character.isDigit(c)) {
                 e.consume();
-                if (FrmMain.res != null && FrmMain.operador == 'n' && !FrmMain.barraTxt.getText().equals(null)
-                        && FrmMain.res == Double.parseDouble(FrmMain.barraTxt.getText())) {
+                if (res != null && operador == 'n' && !FrmMain.barraTxt.getText().equals(null)
+                        && res == Double.parseDouble(FrmMain.barraTxt.getText())) {
                     FrmMain.barraTxt.setText(String.valueOf(c));
-                    FrmMain.n1 = null;
-                    FrmMain.res = null;
-                } else if ((FrmMain.res != null && FrmMain.res == Double.parseDouble(FrmMain.barraTxt.getText())
-                        || FrmMain.n1 != null && FrmMain.n1 == Double.parseDouble(FrmMain.barraTxt.getText()))) {
+                    n1 = null;
+                    res = null;
+                } else if ((res != null && res == Double.parseDouble(FrmMain.barraTxt.getText())
+                        || n1 != null && n1 == Double.parseDouble(FrmMain.barraTxt.getText()))) {
                     FrmMain.barraTxt.setText(String.valueOf(c));
                 } else
                     FrmMain.barraTxt.setText(FrmMain.barraTxt.getText() + String.valueOf(c));
@@ -120,13 +127,13 @@ public class Funciones {
 
             if (c == '.') { // Otros botones
                 e.consume();
-                if (FrmMain.res != null && FrmMain.operador == 'n'
-                        && FrmMain.res == Double.parseDouble(FrmMain.barraTxt.getText())) {
+                if (res != null && operador == 'n'
+                        && res == Double.parseDouble(FrmMain.barraTxt.getText())) {
                     FrmMain.barraTxt.setText("0.");
-                    FrmMain.n1 = null;
-                    FrmMain.res = null;
-                } else if (FrmMain.res != null && FrmMain.res == Double.parseDouble(FrmMain.barraTxt.getText())
-                        || FrmMain.n1 != null && FrmMain.n1 == Double.parseDouble(FrmMain.barraTxt.getText())) {
+                    n1 = null;
+                    res = null;
+                } else if (res != null && res == Double.parseDouble(FrmMain.barraTxt.getText())
+                        || n1 != null && n1 == Double.parseDouble(FrmMain.barraTxt.getText())) {
                     FrmMain.barraTxt.setText("0.");
                 } else if (!FrmMain.barraTxt.getText().contains(Character.toString('.')))
                     FrmMain.barraTxt.setText(FrmMain.barraTxt.getText() + ".");
@@ -134,32 +141,32 @@ public class Funciones {
 
             if (c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == KeyEvent.VK_ENTER) {
                 e.consume();
-                if (FrmMain.n1 != null && FrmMain.operador != 'n') {
+                if (n1 != null && operador != 'n') {
                     if (c == KeyEvent.VK_ENTER) {
-                        FrmMain.n2 = Double.parseDouble(FrmMain.barraTxt.getText());
-                        FrmMain.res = Funciones.operar(FrmMain.operador, FrmMain.n1, FrmMain.n2);
-                        FrmMain.barraTxt.setText(FrmMain.res.toString());
-                        FrmMain.operador = 'n';
-                        FrmMain.n1 = FrmMain.res;
+                        n2 = Double.parseDouble(FrmMain.barraTxt.getText());
+                        res = Funciones.operar(operador, n1, n2);
+                        FrmMain.barraTxt.setText(res.toString());
+                        operador = 'n';
+                        n1 = res;
                     } else {
-                        FrmMain.n2 = Double.parseDouble(FrmMain.barraTxt.getText());
-                        FrmMain.res = Funciones.operar(FrmMain.operador, FrmMain.n1, FrmMain.n2);
-                        FrmMain.barraTxt.setText(FrmMain.res.toString());
-                        FrmMain.operador = String.valueOf(c).toLowerCase().charAt(0);
-                        FrmMain.n1 = FrmMain.res;
+                        n2 = Double.parseDouble(FrmMain.barraTxt.getText());
+                        res = Funciones.operar(operador, n1, n2);
+                        FrmMain.barraTxt.setText(res.toString());
+                        operador = String.valueOf(c).toLowerCase().charAt(0);
+                        n1 = res;
                     }
-                } else if (FrmMain.res != null && FrmMain.res == Double.parseDouble(FrmMain.barraTxt.getText())) {
-                    FrmMain.operador = String.valueOf(c).toLowerCase().charAt(0);
-                } else if (FrmMain.n1 != null && FrmMain.operador == 'n') {
-                    FrmMain.n2 = Double.parseDouble(FrmMain.barraTxt.getText());
-                    FrmMain.operador = String.valueOf(c).toLowerCase().charAt(0);
-                    FrmMain.res = Funciones.operar(FrmMain.operador, FrmMain.n1, FrmMain.n2);
-                    FrmMain.barraTxt.setText(FrmMain.res.toString());
-                    FrmMain.operador = 'n';
-                    FrmMain.n1 = FrmMain.res;
+                } else if (res != null && res == Double.parseDouble(FrmMain.barraTxt.getText())) {
+                    operador = String.valueOf(c).toLowerCase().charAt(0);
+                } else if (n1 != null && operador == 'n') {
+                    n2 = Double.parseDouble(FrmMain.barraTxt.getText());
+                    operador = String.valueOf(c).toLowerCase().charAt(0);
+                    res = Funciones.operar(operador, n1, n2);
+                    FrmMain.barraTxt.setText(res.toString());
+                    operador = 'n';
+                    n1 = res;
                 } else {
-                    FrmMain.n1 = Double.parseDouble(FrmMain.barraTxt.getText());
-                    FrmMain.operador = String.valueOf(c).toLowerCase().charAt(0);
+                    n1 = Double.parseDouble(FrmMain.barraTxt.getText());
+                    operador = String.valueOf(c).toLowerCase().charAt(0);
                 }
             }
         }
