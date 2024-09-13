@@ -26,8 +26,9 @@ public class Funciones {
     }
 
     public static void accionarBoton(ActionEvent e) {
-        if (e.getSource() == FrmMain.uno || e.getSource() == FrmMain.dos || e.getSource() == FrmMain.tres || e.getSource() == FrmMain.cuatro || e.getSource() == FrmMain.cinco || e.getSource() == FrmMain.seis
-			|| e.getSource() == FrmMain.siete || e.getSource() == FrmMain.ocho || e.getSource() == FrmMain.nueve || e.getSource() == FrmMain.cero) {
+        if (e.getSource() == FrmMain.uno || e.getSource() == FrmMain.dos || e.getSource() == FrmMain.tres || e.getSource() == FrmMain.cuatro 
+            || e.getSource() == FrmMain.cinco || e.getSource() == FrmMain.seis || e.getSource() == FrmMain.siete || e.getSource() == FrmMain.ocho 
+            || e.getSource() == FrmMain.nueve || e.getSource() == FrmMain.cero) {
 			JButton button = (JButton) e.getSource();
 			if (res != null && operador == 'n' && !FrmMain.barraTxt.getText().equals(null) && res == Double.parseDouble(FrmMain.barraTxt.getText())) {
 				FrmMain.barraTxt.setText(button.getText());
@@ -65,7 +66,8 @@ public class Funciones {
 		}
 		
 		//Operadores
-		if (e.getSource() == FrmMain.suma || e.getSource() == FrmMain.resta || e.getSource() == FrmMain.multi || e.getSource() == FrmMain.div || e.getSource() == FrmMain.mod || e.getSource() == FrmMain.igual){
+		if (e.getSource() == FrmMain.suma || e.getSource() == FrmMain.resta || e.getSource() == FrmMain.multi || e.getSource() == FrmMain.div 
+            || e.getSource() == FrmMain.mod || e.getSource() == FrmMain.igual){
 			JButton button = (JButton) e.getSource();
 			if (n1 != null && operador != 'n'){
 				if (e.getSource() == FrmMain.igual){

@@ -12,7 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import funcion.Funciones;
 
 public class FrmMain extends JFrame implements ActionListener{
