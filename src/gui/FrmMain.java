@@ -22,10 +22,6 @@ public class FrmMain extends JFrame implements ActionListener{
 	public static JButton borrarC, borrarCE, signo, igual, mod, multi, div, resta, suma, dot, 
 		uno, dos, tres, cuatro, cinco, seis, siete, ocho, nueve, cero;
 	private Dimension buttonSize = new Dimension(70, 50);
-	/*public static char operador = 'n';
-	public static Double n1;
-    public static Double n2;
-	public static Double res = null;*/
 	
 	public FrmMain () {
 		setTitle("Calculadora");
