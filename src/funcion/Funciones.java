@@ -30,11 +30,13 @@ public class Funciones {
             || e.getSource() == FrmMain.cinco || e.getSource() == FrmMain.seis || e.getSource() == FrmMain.siete || e.getSource() == FrmMain.ocho 
             || e.getSource() == FrmMain.nueve || e.getSource() == FrmMain.cero) {
 			JButton button = (JButton) e.getSource();
-			if (res != null && operador == 'n' && !FrmMain.barraTxt.getText().isEmpty() && res == Double.parseDouble(FrmMain.barraTxt.getText())) {
+			if (res != null && operador == 'n' && !FrmMain.barraTxt.getText().isEmpty() 
+                    && res == Double.parseDouble(FrmMain.barraTxt.getText())) {
 				FrmMain.barraTxt.setText(button.getText());
 				n1 = null;
 				res = null;
-			} else if ((!FrmMain.barraTxt.getText().isEmpty()) && (res != null && res == Double.parseDouble(FrmMain.barraTxt.getText()) || n1 != null && n1 == Double.parseDouble(FrmMain.barraTxt.getText()))) {
+			} else if ((!FrmMain.barraTxt.getText().isEmpty()) && (res != null && res == Double.parseDouble(FrmMain.barraTxt.getText()) 
+                    || n1 != null && n1 == Double.parseDouble(FrmMain.barraTxt.getText()))) {
                 FrmMain.barraTxt.setText(button.getText());
 			} else {
                 FrmMain.barraTxt.setText(FrmMain.barraTxt.getText() + button.getText());
@@ -111,28 +113,26 @@ public class Funciones {
 
     public static void accionarTecla(KeyEvent e) {
         char c = e.getKeyChar();
+        e.consume();
 
         //Numeros
-        if (!Character.isDigit(c) && c != '.' && c != '+' && c != '-' && c != '*' && c != '/' && c != '%'
-                && c != KeyEvent.VK_BACK_SPACE && c != KeyEvent.VK_ENTER) {
-            e.consume();
-        } else {
+        if (Character.isDigit(c) || c == '.' || c == '+' || c == '-' || c == '*' || c == '/' || c == '%'
+                || c == KeyEvent.VK_BACK_SPACE || c == KeyEvent.VK_ENTER) {
             if (Character.isDigit(c)) {
-                e.consume();
                 if (res != null && operador == 'n' && !FrmMain.barraTxt.getText().isEmpty()
                         && res == Double.parseDouble(FrmMain.barraTxt.getText())) {
                     FrmMain.barraTxt.setText(String.valueOf(c));
                     n1 = null;
                     res = null;
-                } else if ((res != null && res == Double.parseDouble(FrmMain.barraTxt.getText())
+                } else if ((!FrmMain.barraTxt.getText().isEmpty()) && (res != null && res == Double.parseDouble(FrmMain.barraTxt.getText())
                         || n1 != null && n1 == Double.parseDouble(FrmMain.barraTxt.getText()))) {
                     FrmMain.barraTxt.setText(String.valueOf(c));
                 } else
                     FrmMain.barraTxt.setText(FrmMain.barraTxt.getText() + String.valueOf(c));
             }
-
-            if (c == '.') { // Otros botones
-                e.consume();
+            
+            //Otros teclas
+            if (c == '.') {
                 if (res != null && operador == 'n'
                         && res == Double.parseDouble(FrmMain.barraTxt.getText())) {
                     FrmMain.barraTxt.setText("0.");
@@ -145,8 +145,15 @@ public class Funciones {
                     FrmMain.barraTxt.setText(FrmMain.barraTxt.getText() + ".");
             }
 
+            if (c == KeyEvent.VK_BACK_SPACE && res != null && !FrmMain.barraTxt.getText().isEmpty() && res == Double.parseDouble(FrmMain.barraTxt.getText())){
+                FrmMain.barraTxt.setText(null);
+                res = null;
+                n1 = null;
+            }
+
+
+            //Operadores
             if (c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == KeyEvent.VK_ENTER) {
-                e.consume();
                 if (n1 != null && operador != 'n') {
                     if (c == KeyEvent.VK_ENTER) {
                         n2 = Double.parseDouble(FrmMain.barraTxt.getText());
