@@ -30,11 +30,11 @@ public class Funciones {
             || e.getSource() == FrmMain.cinco || e.getSource() == FrmMain.seis || e.getSource() == FrmMain.siete || e.getSource() == FrmMain.ocho 
             || e.getSource() == FrmMain.nueve || e.getSource() == FrmMain.cero) {
 			JButton button = (JButton) e.getSource();
-			if (res != null && operador == 'n' && !FrmMain.barraTxt.getText().equals(null) && res == Double.parseDouble(FrmMain.barraTxt.getText())) {
+			if (res != null && operador == 'n' && !FrmMain.barraTxt.getText().isEmpty() && res == Double.parseDouble(FrmMain.barraTxt.getText())) {
 				FrmMain.barraTxt.setText(button.getText());
 				n1 = null;
 				res = null;
-			} else if (res != null && res == Double.parseDouble(FrmMain.barraTxt.getText()) || n1 != null && n1 == Double.parseDouble(FrmMain.barraTxt.getText())) {
+			} else if ((!FrmMain.barraTxt.getText().isEmpty()) && (res != null && res == Double.parseDouble(FrmMain.barraTxt.getText()) || n1 != null && n1 == Double.parseDouble(FrmMain.barraTxt.getText()))) {
                 FrmMain.barraTxt.setText(button.getText());
 			} else {
                 FrmMain.barraTxt.setText(FrmMain.barraTxt.getText() + button.getText());
@@ -51,21 +51,25 @@ public class Funciones {
 				FrmMain.barraTxt.setText("0.");
 			} else if (!FrmMain.barraTxt.getText().contains(Character.toString('.')))
                 FrmMain.barraTxt.setText(FrmMain.barraTxt.getText() + "."); 
-		} else if (e.getSource() == FrmMain.borrarC) {
+		}
+        if (e.getSource() == FrmMain.borrarC) {
 			FrmMain.barraTxt.setText(null);
 			res = null;
 			n1 = null;
-		} else if (e.getSource() == FrmMain.borrarCE && !FrmMain.barraTxt.getText().equals(null)){
+		}
+        if (e.getSource() == FrmMain.borrarCE && !FrmMain.barraTxt.getText().isEmpty()){
 			if (res != null && res == Double.parseDouble(FrmMain.barraTxt.getText())){
 				res = null;
 				n1 = null;
 			}
 			FrmMain.barraTxt.setText(null);
-		} else if (e.getSource() == FrmMain.signo){
-            if (!FrmMain.barraTxt.getText().equals(null)){
+		}
+        if (e.getSource() == FrmMain.signo){
+            if (!FrmMain.barraTxt.getText().isEmpty()){
                 Double num = (Double.parseDouble(FrmMain.barraTxt.getText())*-1.0);
                 if (res != null && res == Double.parseDouble(FrmMain.barraTxt.getText())) {
                     res = num;
+                    n1 = res;
                 }
                 FrmMain.barraTxt.setText(num.toString());
             }
@@ -115,7 +119,7 @@ public class Funciones {
         } else {
             if (Character.isDigit(c)) {
                 e.consume();
-                if (res != null && operador == 'n' && !FrmMain.barraTxt.getText().equals(null)
+                if (res != null && operador == 'n' && !FrmMain.barraTxt.getText().isEmpty()
                         && res == Double.parseDouble(FrmMain.barraTxt.getText())) {
                     FrmMain.barraTxt.setText(String.valueOf(c));
                     n1 = null;
